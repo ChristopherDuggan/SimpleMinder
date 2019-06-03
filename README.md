@@ -11,3 +11,16 @@ Once a user has created an account, they can add reminders simply by clicking en
 The user can also add, edit, or delete points of contact with relative ease. Each time they do so, the change will require a verification message to be made permanent. 
 
 When the selected time comes, an email or text message is fired off to the user's chosen point of contact. It's that simple.
+
+## Rough Wireframes
+
+![image](https://user-images.githubusercontent.com/27020691/58819629-a8b2fa80-85fe-11e9-90c4-e5928df5264f.png)
+![image](https://user-images.githubusercontent.com/27020691/58819643-aea8db80-85fe-11e9-8e83-011823f389e0.png)
+![image](https://user-images.githubusercontent.com/27020691/58819655-b2d4f900-85fe-11e9-9d7c-f572434d1a4b.png)
+![image](https://user-images.githubusercontent.com/27020691/58819693-c4b69c00-85fe-11e9-97d3-36f2f5ddf2bc.png)
+![image](https://user-images.githubusercontent.com/27020691/58819706-cda76d80-85fe-11e9-88ac-a435898a6bbe.png)
+![image](https://user-images.githubusercontent.com/27020691/58819727-dbf58980-85fe-11e9-844b-db2677913465.png)
+![image](https://user-images.githubusercontent.com/27020691/58819737-e0ba3d80-85fe-11e9-85f6-1babd71de5c2.png)
+![image](https://user-images.githubusercontent.com/27020691/58819752-e57ef180-85fe-11e9-81fa-65ed1faa378a.png)
+![image](https://user-images.githubusercontent.com/27020691/58819764-eb74d280-85fe-11e9-9cc9-8d0ffeafeb8a.png)
+![image](https://user-images.githubusercontent.com/27020691/58819774-f0398680-85fe-11e9-830d-2dc78f15c8e8.png)
