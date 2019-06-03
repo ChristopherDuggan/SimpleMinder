@@ -1,5 +1,6 @@
 # SimpleMinder
-Don't you forget @ me
+
+## Don't you forget @ me
 
 A simple and customizable app that allows users to set text reminders and send them to their phone or email address of choice.
 
