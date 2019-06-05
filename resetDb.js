@@ -5,8 +5,8 @@ const { Reminder, db } = require('./models')
     await db.sync({force: true})
     await Reminder.create({
       recipient: '15165873089@tmomail.net',
-      message: 'we figured out what the time numbers mean. (you can do it)',
-      time: '1559764800000'
+      message: 'this should send at 4:15',
+      sendTime: '1559765700000'
     }),
     process.exit()
   } catch (err){
