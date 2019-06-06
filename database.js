@@ -2,6 +2,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const logger = require('morgan')
 const app = express()
+const cors = require('cors')
 const port = 4567
 const { db, Reminder } = require('./models.js')
 
@@ -9,6 +10,7 @@ const sendReminder = require('./mailer.js')
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
+app.use(cors())
 
 app.get('/', async (req, res) => {
  try {
