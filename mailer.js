@@ -60,17 +60,24 @@ const checkDb = async () => {
     const messages = await axios.get(`http://localhost:${dbPort}/`)
     const currentTime = new Date
     data = messages.data
-    sendTime = data[0].sendTime
-    if (currentTime >= sendTime) {
-      console.log('the message should be sent')
-      sendReminder(data[0].recipient, data[0].message)
-    } else {
-      console.log('the message should\'t be sent yet')
-    }
+
+    data.map(async reminder => {
+
+      sendTime = reminder.sendTime
+      if (currentTime >= sendTime) {
+        console.log('the message should be sent')
+        sendReminder(reminder.recipient, reminder.message)
+        await axios.delete(`http://localhost:${dbPort}/${reminder.id}`)
+      } else {
+        console.log('the message should\'t be sent yet')
+      }
+
+    })
+
+
   } catch (err) {
     console.log(err)
   }
-  //check for messages whose timestamp to be sent is from the PAS
   //map through them and send those suckers
   //pass those suckers into an array to be passed to deleteEntry()
 }
@@ -79,5 +86,5 @@ const deleteEntry = (entry) => {
   //map through the array and delete dem boiz
 }
 
-setInterval(() => checkDb(), 60000)
+setInterval(() => checkDb(), 30000)
 app.listen(port, () => console.log(`listening on port ${port}`))
