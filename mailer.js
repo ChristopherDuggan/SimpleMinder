@@ -1,3 +1,4 @@
+
 const express = require('express')
 const bodyParser = require('body-parser')
 const logger = require('morgan')
@@ -16,9 +17,6 @@ app.use(bodyParser.json())
 
 app.get('/', (req, res) => res.send('mailer works'))
 
-
-// async..await is not allowed in global scope, must use a wrapper
-
 async function sendReminder(recipient, message, time){
   let x = new Date
   x = x.getTime()
@@ -28,7 +26,6 @@ async function sendReminder(recipient, message, time){
   console.log('this is the current time: ', x)
   try {
 
-  // create reusable transporter object using the default SMTP transport
   let transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
@@ -37,7 +34,6 @@ async function sendReminder(recipient, message, time){
     }
   });
 
-  // send mail with defined transport object
   let info = await transporter.sendMail({
     from: '"Simple Minder Robot" <simpleminderrobot@gmail.com>', // sender address
     to: recipient, // list of receivers
@@ -46,7 +42,6 @@ async function sendReminder(recipient, message, time){
   });
 
   console.log("Message sent: %s", info.messageId);
-  // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
   } catch(err) {
     console.log(err)
   }
@@ -55,8 +50,10 @@ async function sendReminder(recipient, message, time){
 
 
 const checkDb = async () => {
+
+  const sentReminders = []
+
   try {
-    //hits endpoint on the db soivah
     const messages = await axios.get(`http://localhost:${dbPort}/`)
     const currentTime = new Date
     data = messages.data
@@ -64,27 +61,29 @@ const checkDb = async () => {
     data.map(async reminder => {
 
       sendTime = reminder.sendTime
+
       if (currentTime >= sendTime) {
         console.log('the message should be sent')
         sendReminder(reminder.recipient, reminder.message)
-        await axios.delete(`http://localhost:${dbPort}/${reminder.id}`)
+        sentReminders.push(reminder)
       } else {
         console.log('the message should\'t be sent yet')
       }
 
     })
 
-
+    if(sentReminders.length > 0) {
+      deleteEntries(sentReminders)
+    }
   } catch (err) {
     console.log(err)
   }
-  //map through them and send those suckers
-  //pass those suckers into an array to be passed to deleteEntry()
 }
 
-const deleteEntry = (entry) => {
-  //map through the array and delete dem boiz
+const deleteEntries = (entries) => {
+  entries.map(entry =>  axios.delete(`http://localhost:${dbPort}/${entry.id}`))
 }
 
 setInterval(() => checkDb(), 30000)
+
 app.listen(port, () => console.log(`listening on port ${port}`))
