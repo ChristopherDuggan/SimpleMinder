@@ -1,10 +1,13 @@
 import React from 'react';
-import axios from 'axios';
+import axios from 'axios'
 
 export default function ReminderList (props) {
 
 
-  const { reminderDay, reminderTime, reminders, changeView, goToEdit } = props
+  const { reminderDay, reminderTime, reminders, changeView, goToEdit, getReminderList } = props
+
+  getReminderList()
+
     return(
       <ul>
           {reminders.map(reminder => {

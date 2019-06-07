@@ -3,6 +3,7 @@ import LoginForm from './LoginForm'
 import ReminderList from './ReminderList'
 import NewReminder from './NewReminder'
 import EditReminder from './EditReminder'
+import SignUp from './SignUp'
 
 export default function Main(props) {
   const { 
@@ -13,6 +14,7 @@ export default function Main(props) {
     handleLogin,
     handleNew,
     epochToDate,
+    getReminderList,
     reminderDay,
     reminderTime,
     reminders,
@@ -36,6 +38,7 @@ export default function Main(props) {
        <ReminderList 
          changeView = {changeView}
          epochToDate = {epochToDate}
+         getReminderList = {getReminderList}
          reminderDay = {reminderDay}
          reminderTime = {reminderTime}
          reminders = {reminders}
@@ -62,6 +65,10 @@ export default function Main(props) {
         recipient = {recipient}
         message = {message}
       />
+    )
+  } else if (currentView === 'SignUp') {
+    return (
+      <SignUp />
     )
   } else {
     return (

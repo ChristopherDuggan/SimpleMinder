@@ -5,7 +5,7 @@ export default function Header(props) {
   if(currentView === 'Home') {
     return (
       <header>
-        <h3 className="sign-up"><a href="#">Sign Up</a></h3> 
+        <h3 className="sign-up" id="SignUp" onClick={(e) => changeView(e)}>Sign Up</h3> 
         <h1 className="big-logo simple">
          Simple
         </h1>
