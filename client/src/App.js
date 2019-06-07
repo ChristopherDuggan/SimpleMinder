@@ -4,6 +4,7 @@ import axios from 'axios'
 
 import Header from './Components/Header'
 import Main from './Components/Main'
+import Footer from './Components/Footer'
 
 class App extends React.Component {
 
@@ -220,6 +221,7 @@ class App extends React.Component {
           message = {message}
           id = {id}
         />
+        <Footer />
       </div>
     );
   }
