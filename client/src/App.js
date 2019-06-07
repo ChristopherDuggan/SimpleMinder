@@ -1,9 +1,7 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import axios from 'axios'
 
-import ReminderList from './Components/ReminderList'
 import Header from './Components/Header'
 import Main from './Components/Main'
 
@@ -32,6 +30,10 @@ class App extends React.Component {
     this.reminderDay = this.reminderDay.bind(this)
     this.reminderTime = this.reminderTime.bind(this)
     this.goToEdit = this.goToEdit.bind(this)
+    this.editReminder = this.editReminder.bind(this)
+    this.deleteReminder = this.deleteReminder.bind(this)
+    this.getReminder = this.getReminder.bind(this)
+    this.formattedDate = this.formattedDate.bind(this)
   } 
 
   changeView(e){
@@ -62,7 +64,6 @@ class App extends React.Component {
     console.log(e.target)
     await axios.get(`http://localhost:4567/`)
       .then(res => {
-        console.log(res.data)
         this.setState({reminders: res.data})
     })
 
@@ -88,6 +89,25 @@ class App extends React.Component {
     return new Date(parseInt(epoch)) 
   }
 
+  formattedDate(epoch) {
+    const { epochToDate } = this
+    const year = epochToDate(epoch).getFullYear()
+    let month = epochToDate(epoch).getMonth() + 1
+    if(month < 10) {month = `0${month}`}
+    let date = epochToDate(epoch).getDate()
+    if(date < 10 ) { date = `0${date}`}
+    return `${year}-${month}-${date}`
+  }
+
+  formattedTime(epoch) {
+    const { epochToDate } = this
+    let hours = epochToDate(epoch).getHours()
+    if(hours < 10) {hours = `0${hours}`}
+    let minutes = epochToDate(epoch).getMinutes()
+    if(minutes < 10) {minutes = `0${minutes}`}
+    return `${hours}:${minutes}`
+  }
+
   reminderDay(epoch) {
     const dateObject = this.epochToDate(epoch)
     const days = ['Sun @ ','Mon @ ','Tue @ ','Wed @ ','Thu @ ','Fri @ ','Sat @ ']
@@ -107,16 +127,6 @@ class App extends React.Component {
       time = `${hours}:${minutes} AM`
     }
     return time
-  }
-
-  async editReminder(id) {
-    
-    await axios.get(`http://localhost:4567/${id}`)
-      .then(res => {
-        console.log(res.data)
-        this.setState({reminders: res.data})
-    })
-
   }
 
   async handleNew(e) {
@@ -144,19 +154,45 @@ class App extends React.Component {
   }
 
   async getReminder(id) {
-    console.log(this.state.id)
     await axios.get(`http://localhost:4567/${id}`)
       .then((res) => this.setState({
         recipient: res.data.recipient,
         message: res.data.message,
-
+        date: this.formattedDate(res.data.sendTime),
+        time: this.formattedTime(res.data.sendTime)
       }))
   }
+
+  async editReminder(e) {
+    console.log('edit  reminder works')
+    e.preventDefault()
+    const { recipient, date, time, message, id } = this.state
+    const reminder = {
+      recipient,
+      message,
+      sendTime: new Date(`${date} ${time}`).getTime()
+    }
+    
+    await axios.put(`http://localhost:4567/${id}`, reminder)
+      .then(() => console.log('Reminder Updated'))
+      .then(this.setState({currentView: 'Portal'}))
+      .catch(err => console.log(err))
+  }
+
+  async deleteReminder(e) {
+    e.preventDefault()
+    const { id, reminder } = this.state
+    await axios.delete(`http://localhost:4567/${id}`, reminder)
+      .then(() => console.log('Reminder Updated'))
+      .then(this.setState({currentView: 'Portal'}))
+      .catch(err => console.log(err))
+  }
+
   render() {
 
-  const { currentView, reminders, id } = this.state
+  const { currentView, reminders, id, date, time, recipient, message } = this.state
 
-  const { changeView, handleInput, handleSubmit, handleNew, epochToDate, handleLogin, reminderDay, reminderTime, goToEdit} = this
+  const { changeView, handleInput, handleSubmit, handleNew, epochToDate, handleLogin, reminderDay, reminderTime, goToEdit, editReminder, deleteReminder} = this
 
     return (
       <div className="App">
@@ -175,6 +211,13 @@ class App extends React.Component {
           reminderTime = {reminderTime}
           reminders = {reminders}
           goToEdit = {goToEdit}
+          editReminder = {editReminder}
+          deleteReminder = {deleteReminder}
+          date = {date}
+          time = {time}
+          recipient = {recipient}
+          message = {message}
+          id = {id}
         />
       </div>
     );

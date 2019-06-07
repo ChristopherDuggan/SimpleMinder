@@ -17,7 +17,12 @@ export default function Main(props) {
     reminderTime,
     reminders,
     goToEdit,
-    handleEdit
+    editReminder,
+    deleteReminder,
+    date,
+    time,
+    recipient,
+    message
   } = props
   if(currentView === 'Home') {
     return(
@@ -50,7 +55,12 @@ export default function Main(props) {
       <EditReminder
         handleInput = {handleInput}
         handleSubmit = {handleSubmit}
-        handleEdit = {handleEdit}
+        editReminder = {editReminder}
+        deleteReminder = {deleteReminder}
+        date = {date}
+        time = {time}
+        recipient = {recipient}
+        message = {message}
       />
     )
   } else {
