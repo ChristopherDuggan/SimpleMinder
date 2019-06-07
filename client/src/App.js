@@ -14,6 +14,9 @@ class App extends React.Component {
     this.state = {
       currentView: 'Home',
       reminders: [],
+      date: '',
+      sendTime: '',
+      message: '',
       username: '',
       password: ''
     }
@@ -22,6 +25,7 @@ class App extends React.Component {
     this.handleInput = this.handleInput.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleLogin = this.handleLogin.bind(this)
+    this.handleNew = this.handleNew.bind(this)
     this.epochToDate = this.epochToDate.bind(this)
     this.reminderDay = this.reminderDay.bind(this)
     this.reminderTime = this.reminderTime.bind(this)
@@ -112,11 +116,25 @@ class App extends React.Component {
 
   }
 
+  async handleNew(e) {
+    e.preventDefault()
+
+    const { recipient, sendTime, message } = this.state
+    const reminder = {
+      recipient,
+      message,
+      sendTime
+    }
+    await axios.post(`localhost:4567`, reminder)
+      .then(() => console.log('Reminder Created'))
+      .catch(err => console.log(err))
+  }
+
   render() {
 
   const { currentView, reminders } = this.state
 
-  const { changeView, handleInput, handleSubmit, epochToDate, handleLogin, reminderDay, reminderTime} = this
+  const { changeView, handleInput, handleSubmit, handleNew, epochToDate, handleLogin, reminderDay, reminderTime} = this
 
     return (
       <div className="App">
@@ -128,6 +146,7 @@ class App extends React.Component {
           changeView = {changeView}
           handleInput = {handleInput}
           handleSubmit = {handleSubmit}
+          handleNew = {handleNew}
           handleLogin = {handleLogin}
           epochToDate = {epochToDate}
           reminderDay = {reminderDay}

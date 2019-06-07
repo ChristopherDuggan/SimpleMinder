@@ -4,7 +4,18 @@ import ReminderList from './ReminderList'
 import NewReminder from './NewReminder'
 
 export default function Main(props) {
-  const { changeView, currentView, handleSubmit, handleInput, handleLogin, epochToDate, reminderDay, reminderTime, reminders } = props
+  const { 
+    changeView,
+    currentView,
+    handleSubmit,
+    handleInput,
+    handleLogin,
+    handleNew,
+    epochToDate,
+    reminderDay,
+    reminderTime,
+    reminders
+  } = props
   if(currentView === 'Home') {
     return(
       <LoginForm 
@@ -27,6 +38,7 @@ export default function Main(props) {
       <NewReminder 
         handleInput = {handleInput}
         handleSubmit = {handleSubmit}
+        handleNew = {handleNew}
       />
     )
   } else {
