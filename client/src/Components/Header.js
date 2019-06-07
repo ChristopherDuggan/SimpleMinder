@@ -5,18 +5,24 @@ export default function Header(props) {
   if(currentView === 'Home') {
     return (
       <header>
-        <h3 className="sign-up"><a href="#">Sign Up!</a></h3> 
-        <h1 className="big-logo">Simple Minder</h1>
+        <h3 className="sign-up"><a href="#">Sign Up</a></h3> 
+        <h1 className="big-logo simple">
+         Simple
+        </h1>
+        <h1 className="big-logo minder">
+          Minder
+      </h1>
       </header>
     )
   } else {
     return (
       <header>
-        <h1 className="small-Logo">SM</h1>
+        <div className="small-logo">
+          <h1 className="s">S</h1>
+          <h1 className="m">M</h1>
+        </div>
         <div id="menu-buttons">
-          <div>.</div>
-          <div>.</div>
-          <div>.</div>
+            ...
         </div>
       </header>
     )

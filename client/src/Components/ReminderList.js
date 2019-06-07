@@ -9,12 +9,23 @@ export default function ReminderList (props) {
       <ul>
           {reminders.map(reminder => {
             return (
-              <li key={reminder.id}>
-                <h1>></h1>
-                {reminderDay(reminder.sendTime)}
-                {reminderTime(reminder.sendTime)}
-                {reminder.recipient}
-                {reminder.message}
+              <li 
+                key={reminder.id}
+                className="reminder-list"
+              >
+                <div>
+                <h1 className="carrot">></h1>
+                </div>
+                <div className="reminder-details">
+                  <h3 className="day">
+                    {reminderDay(reminder.sendTime)}
+                    {reminderTime(reminder.sendTime)}
+                  </h3>
+                  <div className="line"></div>
+                  <div className="reminder-message">
+                      {reminder.message}
+                  </div>
+                </div>
               </li>)}
             )
           }

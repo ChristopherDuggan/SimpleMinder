@@ -83,15 +83,23 @@ class App extends React.Component {
 
   reminderDay(epoch) {
     const dateObject = this.epochToDate(epoch)
-    const days = ['Sun@','Mon@','Tue@','Wed@','Thu@','Fri@','Sat@']
+    const days = ['Sun @ ','Mon @ ','Tue @ ','Wed @ ','Thu @ ','Fri @ ','Sat @ ']
     return days[dateObject.getDay()]
   }
   
   reminderTime(epoch) {
     const dateObject = this.epochToDate(epoch)
+    let time = ''
+    let minutes = dateObject.getMinutes()
+    if(minutes < 10) {minutes = `${0}${minutes}`}
     let hours = dateObject.getHours()
-    if(hours > 12) {hours -= 12 }
-    return `${hours}:${dateObject.getMinutes()}`
+    if(hours > 12) {
+      hours -= 12 
+      time = `${hours}:${minutes} PM`
+    } else {
+      time = `${hours}:${minutes} AM`
+    }
+    return time
   }
 
   async editReminder(id) {
