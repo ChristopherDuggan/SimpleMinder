@@ -6,7 +6,6 @@ export default function ReminderList (props) {
 
   const { reminderDay, reminderTime, reminders, changeView, goToEdit, getReminderList } = props
 
-  getReminderList()
 
     return(
       <ul>

@@ -39,6 +39,9 @@ class App extends React.Component {
   } 
 
   changeView(e){
+    if(e.target.id === 'Portal') {
+      this.getReminderList()
+    }
     this.setState({currentView: e.target.id})
   }
 
@@ -60,6 +63,7 @@ class App extends React.Component {
     e.preventDefault()
     e.persist()
 
+    this.getReminderList()
 
     this.changeView(e)
   }
