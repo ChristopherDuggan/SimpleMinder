@@ -2,6 +2,7 @@ import React from 'react'
 import LoginForm from './LoginForm'
 import ReminderList from './ReminderList'
 import NewReminder from './NewReminder'
+import EditReminder from './EditReminder'
 
 export default function Main(props) {
   const { 
@@ -14,7 +15,9 @@ export default function Main(props) {
     epochToDate,
     reminderDay,
     reminderTime,
-    reminders
+    reminders,
+    goToEdit,
+    handleEdit
   } = props
   if(currentView === 'Home') {
     return(
@@ -26,11 +29,12 @@ export default function Main(props) {
   } else if (currentView === 'Portal') {
     return(
        <ReminderList 
-        changeView = {changeView}
-        epochToDate = {epochToDate}
-        reminderDay = {reminderDay}
-        reminderTime = {reminderTime}
-        reminders = {reminders}
+         changeView = {changeView}
+         epochToDate = {epochToDate}
+         reminderDay = {reminderDay}
+         reminderTime = {reminderTime}
+         reminders = {reminders}
+         goToEdit = {goToEdit}
       />
     )
   } else if (currentView === 'New'){
@@ -39,6 +43,14 @@ export default function Main(props) {
         handleInput = {handleInput}
         handleSubmit = {handleSubmit}
         handleNew = {handleNew}
+      />
+    )
+  } else if (currentView === 'Edit') {
+    return (
+      <EditReminder
+        handleInput = {handleInput}
+        handleSubmit = {handleSubmit}
+        handleEdit = {handleEdit}
       />
     )
   } else {

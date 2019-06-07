@@ -4,17 +4,26 @@ import axios from 'axios';
 export default function ReminderList (props) {
 
 
-  const { reminderDay, reminderTime, reminders, changeView } = props
+  const { reminderDay, reminderTime, reminders, changeView, goToEdit } = props
     return(
       <ul>
           {reminders.map(reminder => {
+            const id = reminder.id
             return (
               <li 
                 key={reminder.id}
                 className="reminder-list"
               >
                 <div>
-                <h1 className="carrot">></h1>
+                  <h1 
+                    id="Edit" 
+                    className="carrot"
+                    onClick={(e) => {
+                      goToEdit(e, id)}
+                    }
+                  >
+                    >
+                  </h1>
                 </div>
                 <div className="reminder-details">
                   <h3 className="day">

@@ -15,10 +15,12 @@ class App extends React.Component {
       currentView: 'Home',
       reminders: [],
       date: '',
-      sendTime: '',
+      time: '',
+      recipient: '',
       message: '',
       username: '',
-      password: ''
+      password: '',
+      id: ''
     }
 
     this.changeView = this.changeView.bind(this)
@@ -29,7 +31,8 @@ class App extends React.Component {
     this.epochToDate = this.epochToDate.bind(this)
     this.reminderDay = this.reminderDay.bind(this)
     this.reminderTime = this.reminderTime.bind(this)
-  }
+    this.goToEdit = this.goToEdit.bind(this)
+  } 
 
   changeView(e){
     this.setState({currentView: e.target.id})
@@ -118,23 +121,42 @@ class App extends React.Component {
 
   async handleNew(e) {
     e.preventDefault()
+    e.persist()
 
-    const { recipient, sendTime, message } = this.state
+    const { recipient, date, time, message } = this.state
     const reminder = {
       recipient,
       message,
-      sendTime
+      sendTime: new Date(`${date} ${time}`).getTime()
     }
-    await axios.post(`localhost:4567`, reminder)
+    
+    await axios.post(`http://localhost:4567`, reminder)
       .then(() => console.log('Reminder Created'))
       .catch(err => console.log(err))
+
+    this.changeView(e)
   }
 
+  goToEdit(e, id) {
+    this.setState({id})
+    this.getReminder(id)
+    this.changeView(e)
+  }
+
+  async getReminder(id) {
+    console.log(this.state.id)
+    await axios.get(`http://localhost:4567/${id}`)
+      .then((res) => this.setState({
+        recipient: res.data.recipient,
+        message: res.data.message,
+
+      }))
+  }
   render() {
 
-  const { currentView, reminders } = this.state
+  const { currentView, reminders, id } = this.state
 
-  const { changeView, handleInput, handleSubmit, handleNew, epochToDate, handleLogin, reminderDay, reminderTime} = this
+  const { changeView, handleInput, handleSubmit, handleNew, epochToDate, handleLogin, reminderDay, reminderTime, goToEdit} = this
 
     return (
       <div className="App">
@@ -152,6 +174,7 @@ class App extends React.Component {
           reminderDay = {reminderDay}
           reminderTime = {reminderTime}
           reminders = {reminders}
+          goToEdit = {goToEdit}
         />
       </div>
     );
