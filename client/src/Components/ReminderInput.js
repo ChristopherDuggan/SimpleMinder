@@ -9,7 +9,6 @@ export default class ReminderInput extends React.Component {
    componentDidMount() {
     axios.get(`http://localhost:4567/`)
       .then(res => {
-        console.log(res.data)
         this.setState({reminders: res.data})
     })
   }

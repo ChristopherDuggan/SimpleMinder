@@ -51,9 +51,6 @@ class App extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault()
-    //Add actual functionality here
-    console.log(e.target.id)
-    //changes the view
     this.changeView(e)
   }
 
@@ -61,7 +58,6 @@ class App extends React.Component {
     e.preventDefault()
     e.persist()
 
-    console.log(e.target)
     await axios.get(`http://localhost:4567/`)
       .then(res => {
         this.setState({reminders: res.data})
@@ -164,7 +160,6 @@ class App extends React.Component {
   }
 
   async editReminder(e) {
-    console.log('edit  reminder works')
     e.preventDefault()
     const { recipient, date, time, message, id } = this.state
     const reminder = {
@@ -198,6 +193,7 @@ class App extends React.Component {
       <div className="App">
         <Header 
           currentView = {currentView}
+          changeView = {changeView}
         />
         <Main 
           currentView = {currentView}

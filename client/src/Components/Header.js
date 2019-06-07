@@ -1,7 +1,7 @@
 import React from 'react'
 
 export default function Header(props) {
-  const {currentView} = props
+  const {currentView, changeView} = props
   if(currentView === 'Home') {
     return (
       <header>
@@ -18,8 +18,8 @@ export default function Header(props) {
     return (
       <header>
         <div className="small-logo">
-          <h1 className="s">S</h1>
-          <h1 className="m">M</h1>
+          <h1 className="s" id="Portal" onClick={(e) => changeView(e)}>S</h1>
+          <h1 className="m" id="Portal" onClick={(e) => changeView(e)}>M</h1>
         </div>
         <div id="menu-buttons">
             ...

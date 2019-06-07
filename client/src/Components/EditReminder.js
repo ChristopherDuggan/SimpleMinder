@@ -2,7 +2,6 @@ import React from 'react'
 
 export default function EditReminder(props) {
   const { handleInput, editReminder, deleteReminder, date, time, recipient, message } = props
-  console.log(props)
   return (
     <form id="Portal" onSubmit={(e) => editReminder(e)}>
       <label>Date</label>
