@@ -42,7 +42,7 @@ app.post('/', async (req, res) => {
     const recipient = req.body.recipient
     const message = req.body.message
     const sendTime = req.body.sendTime
-    const newReminder = Reminder.create({
+    const newReminder = await Reminder.create({
       recipient: recipient,
       message: message,
       sendTime: sendTime
