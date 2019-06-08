@@ -1,10 +1,17 @@
 import React from 'react';
 import axios from 'axios';
 
-export default function ReminderList (props) {
+export default class ReminderList extends React.Component {
+
+    componentWillMount() {
+      this.props.getReminderList()
+    }
+
+  render() {
+
+    const { reminderDay, reminderTime, reminders, changeView, goToEdit } = this.props
 
 
-  const { reminderDay, reminderTime, reminders, changeView, goToEdit } = props
     return(
       <ul>
           {reminders.map(reminder => {
@@ -40,5 +47,5 @@ export default function ReminderList (props) {
           }
               <li><h1 id="New" onClick={(e) => changeView(e)}>+</h1></li>
       </ul>
-    )
+    )}
   }

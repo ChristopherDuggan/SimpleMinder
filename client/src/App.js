@@ -27,6 +27,7 @@ class App extends React.Component {
     this.handleLogin = this.handleLogin.bind(this)
     this.handleNew = this.handleNew.bind(this)
     this.epochToDate = this.epochToDate.bind(this)
+    this.getReminderList = this.getReminderList.bind(this)
     this.reminderDay = this.reminderDay.bind(this)
     this.reminderTime = this.reminderTime.bind(this)
     this.goToEdit = this.goToEdit.bind(this)
@@ -36,7 +37,10 @@ class App extends React.Component {
     this.formattedDate = this.formattedDate.bind(this)
   } 
 
-  changeView(e){
+  async changeView(e){
+    if(e.target.id === 'Portal') {
+     await this.getReminderList()
+    }
     this.setState({currentView: e.target.id})
   }
 
@@ -58,6 +62,12 @@ class App extends React.Component {
     e.preventDefault()
     e.persist()
 
+    this.getReminderList()
+
+    this.changeView(e)
+  }
+
+  async getReminderList() {
     await axios.get(`http://localhost:4567/`)
       .then(res => {
         this.setState({reminders: res.data})
@@ -77,8 +87,6 @@ class App extends React.Component {
     }
 
     this.state.reminders.sort(compareTimes)
-
-    this.changeView(e)
   }
 
   epochToDate(epoch) {
@@ -179,6 +187,7 @@ class App extends React.Component {
     const { id, reminder } = this.state
     await axios.delete(`http://localhost:4567/${id}`, reminder)
       .then(() => console.log('Reminder Updated'))
+      .then(this.getReminderList())
       .then(this.setState({currentView: 'Portal'}))
       .catch(err => console.log(err))
   }
@@ -187,7 +196,7 @@ class App extends React.Component {
 
   const { currentView, reminders, id, date, time, recipient, message } = this.state
 
-  const { changeView, handleInput, handleSubmit, handleNew, epochToDate, handleLogin, reminderDay, reminderTime, goToEdit, editReminder, deleteReminder} = this
+  const { changeView, handleInput, handleSubmit, handleNew, epochToDate, getReminderList, handleLogin, reminderDay, reminderTime, goToEdit, editReminder, deleteReminder} = this
 
     return (
       <div className="App">
@@ -203,6 +212,7 @@ class App extends React.Component {
           handleNew = {handleNew}
           handleLogin = {handleLogin}
           epochToDate = {epochToDate}
+          getReminderList = {getReminderList}
           reminderDay = {reminderDay}
           reminderTime = {reminderTime}
           reminders = {reminders}
