@@ -15,11 +15,23 @@ const Reminder = db.define('reminder', {
   },
   sendTime: {
     type: Sequelize.BIGINT, 
-    defaultValue: 1559757600000
+  },
+})
+
+const User = db.define('user', {
+  name: {
+    type: Sequelize.STRING,
+  },
+  password: {
+    type: Sequelize.STRING,
+  },
+  contact: {
+    type: Sequelize.STRING,
   },
 })
 
 module.exports = {
   db,
-  Reminder
+  Reminder,
+  User
 }
