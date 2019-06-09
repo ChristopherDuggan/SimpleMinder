@@ -25,7 +25,7 @@ app.get('/', async (req,res) => {
 app.get('/:id', async (req, res) => {
   try {
     res.json(await User.findByPk(req.params.id, {
-      include: [ Reminder]
+      include: [ Reminder ]
     }))
   } catch (err) {
       console.log(err)
@@ -67,54 +67,47 @@ app.delete('/:id', async (req, res) => {
   }
 })
 
-//app.get('/', async (req, res) => {
-// try {
-//    res.json(await Reminder.findAll())
-// } catch (err) {
-//   console.log(err)
-// }
-//})
-//
-//app.get('/:id', async (req, res) => {
-//  try {
-//    res.json(await Reminder.findByPk(req.params.id))
-//  } catch (err) {
-//    console.log(err.message)
-//  }
-//})
-//
-//app.delete('/:id', async (req, res) => {
-//  try {
-//    const entry = await Reminder.findByPk(req.params.id)
-//    await entry.destroy()
-//  } catch (err) {
-//    console.log(err.message)
-//  }
-//})
-//
-//app.post('/', async (req, res) => {
-//  try {
-//    const recipient = req.body.recipient
-//    const message = req.body.message
-//    const sendTime = req.body.sendTime
-//    const newReminder = Reminder.create({
-//      recipient: recipient,
-//      message: message,
-//      sendTime: sendTime
-//    })
-//    res.json(newReminder.id)
-//  } catch (err) {
-//    console.log(err.message)
-//  }
-//})
-//
-//app.put('/:id', async (req, res) => {
-//  try {
-//    const entry = await Reminder.findByPk(req.params.id)
-//    entry.update(req.body)
-//  } catch (err) {
-//    console.log(err.message)
-//  }
-//})
+app.get('/:id/:reminderId', async (req, res) => {
+  try {
+    res.json(await Reminder.findByPk(req.params.reminderId))
+  } catch (err) {
+    console.log(err.message)
+  }
+})
+
+app.delete('/:id/:reminderId', async (req, res) => {
+  try {
+    const reminder = await Reminder.findByPk(req.params.reminderId)
+    await reminder.destroy()
+    res.send(`reminder ${reminder.id} deleted`)
+  } catch (err) {
+    console.log(err)
+  }
+})
+
+app.post('/:id', async (req, res) => {
+  try {
+    const message = req.body.message
+    const sendTime = req.body.sendTime
+    const newReminder = await Reminder.create({
+      message: message,
+      sendTime: sendTime,
+      userId: req.params.id
+    })
+    res.send(`post ${newReminder.id} has been created`)
+  } catch (err) {
+    console.log(err.message)
+  }
+})
+
+app.put('/:id/:reminderId', async (req, res) => {
+  try {
+    const reminder = await Reminder.findByPk(req.params.reminderId)
+    reminder.update(req.body)
+    res.send(`reminder ${reminder.id} updated`)
+  } catch (err) {
+    console.log(err.message)
+  }
+})
 
 app.listen(port, () => console.log(`listening on port ${port}`))
