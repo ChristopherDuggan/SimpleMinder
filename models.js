@@ -7,9 +7,6 @@ const db = new Sequelize({
 
 const Reminder = db.define('reminder', {
   //change this mofo so the userid is attached to the reminder and the contact info is attached to the user id
-  recipient: {
-    type: Sequelize.STRING,
-  },
   message: {
     type: Sequelize.TEXT,
   },
@@ -29,6 +26,9 @@ const User = db.define('user', {
     type: Sequelize.STRING,
   },
 })
+
+User.hasMany(Reminder, {onDelete: 'cascade'})
+Reminder.belongsTo(User)
 
 module.exports = {
   db,
