@@ -14,7 +14,9 @@ app.use(cors())
 
 app.get('/', async (req,res) => {
   try {
-    res.json(await User.findAll())
+    res.json(await User.findAll({
+      include: [ Reminder]
+    }))
   } catch (err) {
     console.log(err)
   }
@@ -22,7 +24,9 @@ app.get('/', async (req,res) => {
 
 app.get('/:id', async (req, res) => {
   try {
-    res.json(await User.findByPk(req.params.id))
+    res.json(await User.findByPk(req.params.id, {
+      include: [ Reminder]
+    }))
   } catch (err) {
       console.log(err)
   }
