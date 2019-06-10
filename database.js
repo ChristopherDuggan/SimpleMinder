@@ -12,6 +12,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(cors())
 
+//user endpoints
 app.get('/', async (req,res) => {
   try {
     res.json(await User.findAll({
@@ -64,6 +65,17 @@ app.delete('/:id', async (req, res) => {
     res.send(`${user.name} deleted`)
   } catch (err) {
     console.log(err.message)
+  }
+})
+
+//reminder endpoints
+app.get('/mailer/check', async (req, res) => {
+  try {
+    res.json(await Reminder.findAll({
+      include: [ User ]
+    }))
+  } catch (err) {
+    console.log(err)
   }
 })
 

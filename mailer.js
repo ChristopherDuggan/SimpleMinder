@@ -1,4 +1,3 @@
-
 const express = require('express')
 const bodyParser = require('body-parser')
 const logger = require('morgan')
@@ -17,13 +16,7 @@ app.use(bodyParser.json())
 
 app.get('/', (req, res) => res.send('mailer works'))
 
-async function sendReminder(recipient, message, time){
-  let x = new Date
-  x = x.getTime()
-  console.log('this is the recipient', recipient) 
-  console.log('this is the message', message)
-  console.log('this is the send time: ', sendTime)
-  console.log('this is the current time: ', x)
+async function sendReminder(contact, message, time){
   try {
 
   let transporter = nodemailer.createTransport({
@@ -36,9 +29,9 @@ async function sendReminder(recipient, message, time){
 
   let info = await transporter.sendMail({
     from: '"Simple Minder Robot" <simpleminderrobot@gmail.com>', // sender address
-    to: recipient, // list of receivers
-    subject: "Your SM Reminder", // Subject line
-    text: message, // plain text body
+    to: contact,
+    subject: "Your SM Reminder",
+    text: message,
   });
 
   console.log("Message sent: %s", info.messageId);
@@ -54,7 +47,7 @@ const checkDb = async () => {
   const sentReminders = []
 
   try {
-    const messages = await axios.get(`http://localhost:${dbPort}/`)
+    const messages = await axios.get(`http://localhost:${dbPort}/mailer/check`)
     const currentTime = new Date
     data = messages.data
 
@@ -63,25 +56,22 @@ const checkDb = async () => {
       sendTime = reminder.sendTime
 
       if (currentTime >= sendTime) {
-        console.log('the message should be sent')
-        sendReminder(reminder.recipient, reminder.message)
+        sendReminder(reminder.user.contact, reminder.message)
         sentReminders.push(reminder)
-      } else {
-        console.log('the message should\'t be sent yet')
       }
 
     })
 
-    if(sentReminders.length > 0) {
-      deleteEntries(sentReminders)
-    }
   } catch (err) {
     console.log(err)
+  }
+  if(sentReminders.length > 0) {
+    deleteEntries(sentReminders)
   }
 }
 
 const deleteEntries = (entries) => {
-  entries.map(entry =>  axios.delete(`http://localhost:${dbPort}/${entry.id}`))
+  entries.map(entry =>  axios.delete(`http://localhost:${dbPort}/:id/${entry.id}`))
 }
 
 setInterval(() => checkDb(), 30000)
